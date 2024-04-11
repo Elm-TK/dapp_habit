@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SearchView
+import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -14,7 +17,7 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var viewModel: HabitViewModel
     private lateinit var searchEditText: SearchView
-    private lateinit var sortButton: Button
+    private lateinit var sortSpinner: Spinner
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     companion object {
@@ -37,7 +40,11 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.fragment_filter_sort_bottom_sheet, container, false)
 
         searchEditText = view.findViewById(R.id.searchEditText)
-        sortButton = view.findViewById(R.id.sortButton)
+        sortSpinner = view.findViewById(R.id.sortSpinner)
+
+        val sortOptions = arrayOf((getString(R.string.sortInc_button_text)), (getString(R.string.sortDes_button_text)))
+        val sortAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, sortOptions)
+        sortSpinner.adapter = sortAdapter
 
         searchEditText.queryHint = getString(R.string.filter_hint)
 
@@ -54,12 +61,17 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
             }
         })
 
-        sortButton.text = getString(R.string.sort_button_text)
+        sortSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> viewModel.sortHabitsByPriorityDescending()
+                    1 -> viewModel.sortHabitsByPriorityAscending()
+                }
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
 
-        sortButton.setOnClickListener {
-            viewModel.sortHabitsByPriority()
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        })
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBehavior.peekHeight = 800

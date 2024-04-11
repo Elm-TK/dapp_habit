@@ -31,7 +31,8 @@
     <string name="enter_valid_days">Введите корректное число дней</string>
 
     <string name="filter_hint">Поиск привычки</string>
-    <string name="sort_button_text">Сортировать по приоритету</string>
+    <string name="sortInc_button_text">По возрастанию приоритета</string>
+    <string name="sortDes_button_text">По убыванию приоритета</string>
 
     <string name="times_in">раз в</string>
     <string name="week">неделю</string>

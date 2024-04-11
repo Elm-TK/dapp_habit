@@ -33,18 +33,6 @@ class HabitViewModel : ViewModel() {
         return allHabits.find { it.id == id }
     }
 
-    fun getHabitsByType(type: HabitType): List<Habit> {
-        return allHabits.filter { it.type == type }
-    }
-
-    fun getLiveDataByType(type: HabitType): MutableLiveData<List<Habit>> {
-        return if (type == HabitType.GOOD) {
-            goodHabitsLiveData
-        } else {
-            badHabitsLiveData
-        }
-    }
-
     private fun getGoodHabits(): List<Habit> {
         return allHabits.filter { it.type == HabitType.GOOD }
     }
@@ -58,10 +46,21 @@ class HabitViewModel : ViewModel() {
             it.title.contains(query, true) || it.description.contains(query, true)
         }
         habitListLiveData.value = filteredHabits
+        goodHabitsLiveData.value = getGoodHabits().filter {
+            it.title.contains(query, true) || it.description.contains(query, true)
+        }
+        badHabitsLiveData.value = getBadHabits().filter {
+            it.title.contains(query, true) || it.description.contains(query, true)
+        }
     }
 
-    fun sortHabitsByPriority() {
+    fun sortHabitsByPriorityDescending() {
         allHabits.sortByDescending { it.priority }
+        updateLiveData()
+    }
+
+    fun sortHabitsByPriorityAscending() {
+        allHabits.sortBy { it.priority }
         updateLiveData()
     }
 

@@ -13,13 +13,12 @@
             android:layout_height="wrap_content"
             android:queryHint="Поиск привычек..."
             app:iconifiedByDefault="false"
-            app:actionViewClass="androidx.appcompat.widget.SearchView" />
+            app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
-    <Button
-            android:id="@+id/sortButton"
+    <Spinner
+            android:id="@+id/sortSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Сортировать по дате создания" />
+            android:layout_marginTop="16dp"/>
 
 </LinearLayout>
