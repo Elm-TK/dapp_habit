@@ -59,7 +59,7 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        bottomSheetBehavior.peekHeight = 300
+        bottomSheetBehavior.peekHeight = 800
 
         return view
     }

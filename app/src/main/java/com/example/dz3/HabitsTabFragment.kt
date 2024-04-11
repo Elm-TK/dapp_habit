@@ -18,6 +18,7 @@ class HabitsTabFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+    private lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +33,8 @@ class HabitsTabFragment : Fragment() {
 
         viewPager = view.findViewById(R.id.viewPager)
         tabLayout = view.findViewById(R.id.tabLayout)
+        fab = view.findViewById(R.id.fab)
 
-        val fab: FloatingActionButton = view.findViewById(R.id.fab)
         fab.setOnClickListener {
             showNewFragmentCreateOrEditHabit()
         }
@@ -61,6 +62,17 @@ class HabitsTabFragment : Fragment() {
         childFragmentManager.beginTransaction()
             .replace(R.id.bottomSheetContainer, bottomSheetFragment)
             .commit()
+
+//        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//            }
+//
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//                viewPager.layoutParams = (viewPager.layoutParams).apply {
+//                    height = (viewPager.height - slideOffset).toInt()
+//                }
+//            }
+//        })
     }
 
     private fun showNewFragmentCreateOrEditHabit(position: Int = -1) {
