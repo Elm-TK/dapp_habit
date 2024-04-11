@@ -1,7 +1,6 @@
 package com.example.dz3
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,40 +49,18 @@ class HabitsTabFragment : Fragment() {
             }
         }.attach()
 
+        setupBottomSheet(view)
+
+        return view
+    }
+
+    private fun setupBottomSheet(view: View) {
         val bottomSheetContainer = view.findViewById<View>(R.id.bottomSheetContainer)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
-
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        bottomSheetBehavior.peekHeight = 300
-
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                Log.d("BottomSheet", "State changed to: $newState")
-                when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        bottomSheetBehavior.peekHeight = 150
-                    }
-                    BottomSheetBehavior.STATE_EXPANDED -> {
-                        bottomSheetBehavior.peekHeight = 300
-                    }
-                    BottomSheetBehavior.STATE_HIDDEN -> {
-                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                    }
-                    else -> {
-                    }
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            }
-        })
-
         val bottomSheetFragment = FilterSortBottomSheetFragment.newInstance(bottomSheetBehavior)
         childFragmentManager.beginTransaction()
             .replace(R.id.bottomSheetContainer, bottomSheetFragment)
             .commit()
-
-        return view
     }
 
     private fun showNewFragmentCreateOrEditHabit(position: Int = -1) {
