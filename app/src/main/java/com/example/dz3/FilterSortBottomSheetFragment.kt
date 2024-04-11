@@ -52,10 +52,13 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        val behavior = BottomSheetBehavior.from(requireView().parent as View)
-        behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        behavior.peekHeight = 150 // Начальная высота BottomSheet
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.parent?.let { parentView ->
+            val behavior = BottomSheetBehavior.from(parentView as View)
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            behavior.peekHeight = 150 // Начальная высота BottomSheet
+        }
     }
 }

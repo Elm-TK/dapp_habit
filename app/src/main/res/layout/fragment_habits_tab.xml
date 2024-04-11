@@ -43,14 +43,13 @@
                 app:layout_anchorGravity="bottom|end"
                 app:layout_anchor="@id/viewPager"/>
 
-        <fragment
+        <include
+                layout="@layout/layout_bottom_sheet"
                 android:id="@+id/filterSortBottomSheet"
-                android:name="com.example.dz3.FilterSortBottomSheetFragment"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_gravity="bottom"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

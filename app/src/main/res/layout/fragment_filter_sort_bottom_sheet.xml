@@ -1,24 +1,32 @@
-<!-- fragment_filter_sort_bottom_sheet.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:padding="16dp">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent">
 
-    <SearchView
-            android:id="@+id/searchEditText"
+    <LinearLayout
+            android:id="@+id/bottomSheetLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:queryHint="Поиск привычек..."
-            app:iconifiedByDefault="false"
-            app:actionViewClass="androidx.appcompat.widget.SearchView" />
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <Button
-            android:id="@+id/sortButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Сортировать по дате создания" />
+        <SearchView
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryHint="Поиск привычек..."
+                app:iconifiedByDefault="false"
+                app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
-</LinearLayout>
+        <Button
+                android:id="@+id/sortButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Сортировать по дате создания" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
