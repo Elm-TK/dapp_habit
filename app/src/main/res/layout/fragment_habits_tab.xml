@@ -28,7 +28,7 @@
         <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="370dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,8 +45,7 @@
         <FrameLayout
                 android:id="@+id/bottomSheetContainer"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_gravity="bottom"
+                android:layout_height="wrap_content"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

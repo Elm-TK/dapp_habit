@@ -16,6 +16,15 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var viewModel: HabitViewModel
     private lateinit var searchEditText: SearchView
     private lateinit var sortButton: Button
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
+
+    companion object {
+        fun newInstance(bottomSheetBehavior: BottomSheetBehavior<View>): FilterSortBottomSheetFragment {
+            val fragment = FilterSortBottomSheetFragment()
+            fragment.bottomSheetBehavior = bottomSheetBehavior
+            return fragment
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +55,7 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
 
         sortButton.setOnClickListener {
             viewModel.sortHabitsByDate()
-            dismiss()
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         return view
@@ -54,8 +63,6 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val bottomSheetBehavior = BottomSheetBehavior.from(view.parent as View)
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         bottomSheetBehavior.peekHeight = 300
@@ -66,19 +73,21 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         bottomSheetBehavior.peekHeight = 150
                     }
+
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         bottomSheetBehavior.peekHeight = 300
                     }
+
                     BottomSheetBehavior.STATE_HIDDEN -> {
                         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     }
+
                     else -> {
                     }
                 }
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // Некоторые действия при изменении состояния
             }
         })
     }

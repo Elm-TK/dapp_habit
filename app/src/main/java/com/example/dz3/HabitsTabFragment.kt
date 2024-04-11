@@ -1,16 +1,17 @@
 package com.example.dz3
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class HabitsTabFragment : Fragment() {
 
@@ -49,12 +50,6 @@ class HabitsTabFragment : Fragment() {
             }
         }.attach()
 
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val bottomSheetContainer = view.findViewById<View>(R.id.bottomSheetContainer)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
 
@@ -63,6 +58,7 @@ class HabitsTabFragment : Fragment() {
 
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
+                Log.d("BottomSheet", "State changed to: $newState")
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         bottomSheetBehavior.peekHeight = 150
@@ -79,15 +75,15 @@ class HabitsTabFragment : Fragment() {
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // Некоторые действия при изменении состояния
             }
         })
 
-        // Показываем BottomSheetFragment
-        val bottomSheetFragment = FilterSortBottomSheetFragment()
+        val bottomSheetFragment = FilterSortBottomSheetFragment.newInstance(bottomSheetBehavior)
         childFragmentManager.beginTransaction()
             .replace(R.id.bottomSheetContainer, bottomSheetFragment)
             .commit()
+
+        return view
     }
 
     private fun showNewFragmentCreateOrEditHabit(position: Int = -1) {
