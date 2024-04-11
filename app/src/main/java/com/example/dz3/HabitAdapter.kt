@@ -1,13 +1,11 @@
 package com.example.dz3
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dz3.databinding.HabitBinding
 
@@ -61,9 +59,24 @@ class HabitAdapter(
             colorView.setImageResource(R.drawable.circle_green_24)
             titleView.text = habit.title
             descriptionView.text = habit.description
-            priorityView.text = habit.priority
-            typeView.text = habit.type
+            priorityView.text = mapPriorityToText(habit.priority)
+            typeView.text = mapTypeToText(habit.type)
             periodView.text = "${habit.repeat} раз в ${habit.days} дней"
+        }
+
+        private fun mapPriorityToText(priority: HabitPriority): String {
+            return when (priority) {
+                HabitPriority.HIGH -> "Высокий"
+                HabitPriority.MEDIUM -> "Обычный"
+                HabitPriority.LOW -> "Низкий"
+            }
+        }
+
+        private fun mapTypeToText(type: HabitType): String {
+            return when (type) {
+                HabitType.GOOD -> "Хорошая"
+                HabitType.BAD -> "Плохая"
+            }
         }
     }
 

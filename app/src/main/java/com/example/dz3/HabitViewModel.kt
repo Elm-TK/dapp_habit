@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 class HabitViewModel : ViewModel() {
 
     private val allHabits: MutableList<Habit> = mutableListOf(
-        Habit(6, 1, "Чтение книг", "Читать 30 минут каждый день", "Высокий", "Хорошая", 1, 7),
-        Habit(100, 2, "Пить воду", "Пить 2 литра воды каждый день", "Высокий", "Хорошая", 1, 7),
-        Habit(1000, 3, "Курение", "Не курить", "Высокий", "Плохая", 1, 7),
-        Habit(30, 4, "Заниматься спортом", "Заниматься 3 раза в неделю", "Высокий", "Хорошая", 1, 3)
+        Habit(1, 1, "Чтение книг", "Читать 30 минут каждый день", HabitPriority.HIGH, HabitType.GOOD, 1, 7),
+        Habit(2, 2, "Пить воду", "Пить 2 литра воды каждый день", HabitPriority.HIGH, HabitType.GOOD, 1, 7),
+        Habit(3, 3, "Курение", "Не курить", HabitPriority.MEDIUM, HabitType.BAD, 1, 7),
+        Habit(4, 4, "Заниматься спортом", "Заниматься 3 раза в неделю", HabitPriority.LOW, HabitType.GOOD, 1, 3)
     )
 
     val habitListLiveData: MutableLiveData<List<Habit>> = MutableLiveData(allHabits)
@@ -33,12 +33,12 @@ class HabitViewModel : ViewModel() {
         return allHabits.find { it.id == id }
     }
 
-    fun getHabitsByType(type: String): List<Habit> {
+    fun getHabitsByType(type: HabitType): List<Habit> {
         return allHabits.filter { it.type == type }
     }
 
-    fun getLiveDataByType(type: String): MutableLiveData<List<Habit>> {
-        return if (type == "Хорошая") {
+    fun getLiveDataByType(type: HabitType): MutableLiveData<List<Habit>> {
+        return if (type == HabitType.GOOD) {
             goodHabitsLiveData
         } else {
             badHabitsLiveData
@@ -46,11 +46,11 @@ class HabitViewModel : ViewModel() {
     }
 
     private fun getGoodHabits(): List<Habit> {
-        return allHabits.filter { it.type == "Хорошая" }
+        return allHabits.filter { it.type == HabitType.GOOD }
     }
 
     private fun getBadHabits(): List<Habit> {
-        return allHabits.filter { it.type == "Плохая" }
+        return allHabits.filter { it.type == HabitType.BAD }
     }
 
     fun filterHabits(query: String) {

@@ -9,9 +9,13 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 
-private const val ARG_PARAM1 = "key"
-
 class CreateOrEditHabitFragment : Fragment() {
+
+    companion object {
+        const val ARG_HABIT = "key"
+        const val ARG_POSITION = "position"
+        const val ARG_IS_EDIT = "edit"
+    }
 
     private var habit: Habit? = null
     private var position: Int = 0
@@ -29,9 +33,9 @@ class CreateOrEditHabitFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            habit = arguments?.getSerializable(ARG_PARAM1) as? Habit
-            position = arguments?.getInt("position") ?: 0
-            isEdit = arguments?.getBoolean("edit") ?: false
+            habit = arguments?.getSerializable(ARG_HABIT) as? Habit
+            position = arguments?.getInt(ARG_POSITION) ?: 0
+            isEdit = arguments?.getBoolean(ARG_IS_EDIT) ?: false
         }
 
         viewModel = ViewModelProvider(requireActivity())[HabitViewModel::class.java]
@@ -51,6 +55,11 @@ class CreateOrEditHabitFragment : Fragment() {
         radioGroup = view.findViewById(R.id.radioGroup)
         button = view.findViewById(R.id.button)
 
+        // Заполнение Spinner
+        val priorities = arrayOf("Высокий", "Обычный", "Низкий")
+        val priorityAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, priorities)
+        prioritySelector.adapter = priorityAdapter
+
         if (isEdit) {
             view.findViewById<TextView>(R.id.action_title).text = "Изменение привычки"
             button.text = "Изменить"
@@ -58,9 +67,20 @@ class CreateOrEditHabitFragment : Fragment() {
             descriptionInput.setText(habit?.description)
             repeatInput.setText(habit?.repeat.toString())
             daysInput.setText(habit?.days.toString())
-            prioritySelector.setSelection(getIndex(prioritySelector, habit?.priority ?: ""))
+
+            // Выставляем значение в Spinner
+            prioritySelector.setSelection(
+                when (habit?.priority) {
+                    HabitPriority.HIGH -> 0
+                    HabitPriority.MEDIUM -> 1
+                    HabitPriority.LOW -> 2
+                    else -> 1
+                }
+            )
+
+            // Выставляем значение в RadioGroup
             radioGroup.children.forEach { radioButton ->
-                if ((radioButton as RadioButton).text == habit?.type) {
+                if ((radioButton as RadioButton).text == mapTypeToRussian(habit?.type)) {
                     radioButton.isChecked = true
                 }
             }
@@ -75,10 +95,21 @@ class CreateOrEditHabitFragment : Fragment() {
             if (isValidInput()) {
                 val title: String = titleInput.text.toString()
                 val description: String = descriptionInput.text.toString()
-                val priority: String = prioritySelector.selectedItem.toString()
-                val type: String = radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()
                 val repeat: Int = repeatInput.text.toString().toInt()
                 val days: Int = daysInput.text.toString().toInt()
+
+                val priority: HabitPriority = when (prioritySelector.selectedItem.toString()) {
+                    "Высокий" -> HabitPriority.HIGH
+                    "Обычный" -> HabitPriority.MEDIUM
+                    "Низкий" -> HabitPriority.LOW
+                    else -> HabitPriority.MEDIUM
+                }
+
+                val type: HabitType = when (radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()) {
+                    "Хорошая" -> HabitType.GOOD
+                    "Плохая" -> HabitType.BAD
+                    else -> HabitType.GOOD
+                }
 
                 val newHabit = Habit(1, 1, title, description, priority, type, repeat, days)
 
@@ -95,7 +126,6 @@ class CreateOrEditHabitFragment : Fragment() {
         }
     }
 
-
     private fun isValidInput(): Boolean {
         var isValid = true
 
@@ -104,16 +134,12 @@ class CreateOrEditHabitFragment : Fragment() {
             isValid = false
         }
 
-        if (repeatInput.text.isNullOrBlank() || repeatInput.text.toString()
-                .toIntOrNull() == null || repeatInput.text.toString() == "0"
-        ) {
+        if (repeatInput.text.isNullOrBlank() || repeatInput.text.toString().toIntOrNull() == null || repeatInput.text.toString() == "0") {
             repeatInput.setError("Введите корректное число повторений")
             isValid = false
         }
 
-        if (daysInput.text.isNullOrBlank() || daysInput.text.toString()
-                .toIntOrNull() == null || daysInput.text.toString() == "0"
-        ) {
+        if (daysInput.text.isNullOrBlank() || daysInput.text.toString().toIntOrNull() == null || daysInput.text.toString() == "0") {
             daysInput.setError("Введите корректное число дней")
             isValid = false
         }
@@ -121,12 +147,11 @@ class CreateOrEditHabitFragment : Fragment() {
         return isValid
     }
 
-    private fun getIndex(spinner: Spinner, myString: String): Int {
-        for (i in 0 until spinner.count) {
-            if (spinner.getItemAtPosition(i) == myString) {
-                return i
-            }
+    private fun mapTypeToRussian(type: HabitType?): String {
+        return when (type) {
+            HabitType.GOOD -> "Хорошая"
+            HabitType.BAD -> "Плохая"
+            else -> "Хорошая"
         }
-        return 0
     }
 }

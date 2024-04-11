@@ -17,13 +17,13 @@ class ListHabitFragment : Fragment() {
     private lateinit var habitAdapter: HabitAdapter
 
     companion object {
-        const val ARG_COLUMN_COUNT = "column-count"
+        private const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_HABIT_TYPE = "habit-type"
 
-        fun newInstance(columnCount: Int, habitType: String) = ListHabitFragment().apply {
+        fun newInstance(columnCount: Int, habitType: HabitType) = ListHabitFragment().apply {
             arguments = Bundle().apply {
                 putInt(ARG_COLUMN_COUNT, columnCount)
-                putString(ARG_HABIT_TYPE, habitType)
+                putSerializable(ARG_HABIT_TYPE, habitType)
             }
         }
     }
@@ -47,13 +47,13 @@ class ListHabitFragment : Fragment() {
         }
         recyclerView.adapter = habitAdapter
 
-        val habitType = arguments?.getString(ARG_HABIT_TYPE) ?: ""
+        val habitType = arguments?.getSerializable(ARG_HABIT_TYPE)
         when (habitType) {
-            "good" -> viewModel.goodHabitsLiveData.observe(viewLifecycleOwner) { habits ->
+            HabitType.GOOD -> viewModel.goodHabitsLiveData.observe(viewLifecycleOwner) { habits ->
                 habitAdapter.updateData(habits)
             }
 
-            "bad" -> viewModel.badHabitsLiveData.observe(viewLifecycleOwner) { habits ->
+            HabitType.BAD -> viewModel.badHabitsLiveData.observe(viewLifecycleOwner) { habits ->
                 habitAdapter.updateData(habits)
             }
         }
@@ -63,11 +63,11 @@ class ListHabitFragment : Fragment() {
 
     private fun showNewFragmentCreateOrEditHabit(id: Int = -1) {
         val bundle = Bundle().apply {
-            putBoolean("edit", id != -1)
+            putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, id != -1)
 
             if (id != -1) {
                 val habit = viewModel.getHabitById(id)
-                putSerializable("key", habit)
+                putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
             }
         }
 

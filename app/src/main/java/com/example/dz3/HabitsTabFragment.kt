@@ -26,8 +26,7 @@ class HabitsTabFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_habits_tab, container, false)
 
@@ -59,9 +58,7 @@ class HabitsTabFragment : Fragment() {
         val bottomSheetContainer = view.findViewById<View>(R.id.bottomSheetContainer)
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
         val bottomSheetFragment = FilterSortBottomSheetFragment.newInstance(bottomSheetBehavior)
-        childFragmentManager.beginTransaction()
-            .replace(R.id.bottomSheetContainer, bottomSheetFragment)
-            .commit()
+        childFragmentManager.beginTransaction().replace(R.id.bottomSheetContainer, bottomSheetFragment).commit()
 
 //        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 //            override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -77,12 +74,12 @@ class HabitsTabFragment : Fragment() {
 
     private fun showNewFragmentCreateOrEditHabit(position: Int = -1) {
         val bundle = Bundle().apply {
-            putBoolean("edit", position != -1)
+            putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, position != -1)
 
             if (position != -1) {
                 val habit = viewModel.habitListLiveData.value?.get(position)
-                putSerializable("key", habit)
-                putInt("position", position)
+                putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
+                putInt(CreateOrEditHabitFragment.ARG_POSITION, position)
             }
         }
 
@@ -90,9 +87,6 @@ class HabitsTabFragment : Fragment() {
             arguments = bundle
         }
 
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout, fragment)
-            .addToBackStack(null)
-            .commit()
+        parentFragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).addToBackStack(null).commit()
     }
 }
