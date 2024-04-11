@@ -1,11 +1,10 @@
 package com.example.dz3
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,6 +17,7 @@ class HabitsTabFragment : Fragment() {
     private lateinit var viewModel: HabitViewModel
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +50,44 @@ class HabitsTabFragment : Fragment() {
         }.attach()
 
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val bottomSheetContainer = view.findViewById<View>(R.id.bottomSheetContainer)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer)
+
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        bottomSheetBehavior.peekHeight = 300
+
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        bottomSheetBehavior.peekHeight = 150
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        bottomSheetBehavior.peekHeight = 300
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                    else -> {
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                // Некоторые действия при изменении состояния
+            }
+        })
+
+        // Показываем BottomSheetFragment
+        val bottomSheetFragment = FilterSortBottomSheetFragment()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.bottomSheetContainer, bottomSheetFragment)
+            .commit()
     }
 
     private fun showNewFragmentCreateOrEditHabit(position: Int = -1) {

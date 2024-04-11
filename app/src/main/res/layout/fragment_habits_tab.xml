@@ -5,8 +5,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/habitsTab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="10dp">
+        android:layout_height="match_parent">
 
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -43,13 +42,13 @@
                 app:layout_anchorGravity="bottom|end"
                 app:layout_anchor="@id/viewPager"/>
 
-        <include
-                layout="@layout/layout_bottom_sheet"
-                android:id="@+id/filterSortBottomSheet"
+        <FrameLayout
+                android:id="@+id/bottomSheetContainer"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_gravity="bottom"
                 app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
