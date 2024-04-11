@@ -16,6 +16,25 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="info_blank_fragment">Info fragment</string>
+
+    <string name="edit_habit_title">Изменение привычки</string>
+    <string name="edit_button_text">Изменить</string>
+    <string name="good_habit">Хорошая</string>
+    <string name="bad_habit">Плохая</string>
+    <string name="high_priority">Высокий</string>
+    <string name="medium_priority">Обычный</string>
+    <string name="low_priority">Низкий</string>
+    <string name="enter_habit_title">Введите название привычки</string>
+    <string name="enter_valid_repeat">Введите корректное число повторений</string>
+    <string name="enter_valid_days">Введите корректное число дней</string>
+
+    <string name="filter_hint">Поиск привычки</string>
+    <string name="sort_button_text">Сортировать по приоритету</string>
+
+    <string name="times_in">раз в</string>
+    <string name="week">неделю</string>
+
+
 </resources>

@@ -55,20 +55,18 @@ class CreateOrEditHabitFragment : Fragment() {
         radioGroup = view.findViewById(R.id.radioGroup)
         button = view.findViewById(R.id.button)
 
-        // Заполнение Spinner
-        val priorities = arrayOf("Высокий", "Обычный", "Низкий")
+        val priorities = resources.getStringArray(R.array.priorities)
         val priorityAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, priorities)
         prioritySelector.adapter = priorityAdapter
 
         if (isEdit) {
-            view.findViewById<TextView>(R.id.action_title).text = "Изменение привычки"
-            button.text = "Изменить"
+            view.findViewById<TextView>(R.id.action_title).text = getString(R.string.edit_habit_title)
+            button.text = getString(R.string.edit_button_text)
             titleInput.setText(habit?.title)
             descriptionInput.setText(habit?.description)
             repeatInput.setText(habit?.repeat.toString())
             daysInput.setText(habit?.days.toString())
 
-            // Выставляем значение в Spinner
             prioritySelector.setSelection(
                 when (habit?.priority) {
                     HabitPriority.HIGH -> 0
@@ -77,10 +75,8 @@ class CreateOrEditHabitFragment : Fragment() {
                     else -> 1
                 }
             )
-
-            // Выставляем значение в RadioGroup
             radioGroup.children.forEach { radioButton ->
-                if ((radioButton as RadioButton).text == mapTypeToRussian(habit?.type)) {
+                if ((radioButton as RadioButton).text == mapTypeToText(habit?.type)) {
                     radioButton.isChecked = true
                 }
             }
@@ -99,17 +95,18 @@ class CreateOrEditHabitFragment : Fragment() {
                 val days: Int = daysInput.text.toString().toInt()
 
                 val priority: HabitPriority = when (prioritySelector.selectedItem.toString()) {
-                    "Высокий" -> HabitPriority.HIGH
-                    "Обычный" -> HabitPriority.MEDIUM
-                    "Низкий" -> HabitPriority.LOW
+                    getString(R.string.high_priority) -> HabitPriority.HIGH
+                    getString(R.string.medium_priority) -> HabitPriority.MEDIUM
+                    getString(R.string.low_priority) -> HabitPriority.LOW
                     else -> HabitPriority.MEDIUM
                 }
 
-                val type: HabitType = when (radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()) {
-                    "Хорошая" -> HabitType.GOOD
-                    "Плохая" -> HabitType.BAD
-                    else -> HabitType.GOOD
-                }
+                val type: HabitType =
+                    when (radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()) {
+                        getString(R.string.good_habit) -> HabitType.GOOD
+                        getString(R.string.bad_habit) -> HabitType.BAD
+                        else -> HabitType.GOOD
+                    }
 
                 val newHabit = Habit(1, 1, title, description, priority, type, repeat, days)
 
@@ -130,28 +127,32 @@ class CreateOrEditHabitFragment : Fragment() {
         var isValid = true
 
         if (titleInput.text.isNullOrBlank()) {
-            titleInput.setError("Введите название привычки")
+            titleInput.setError(getString(R.string.enter_habit_title))
             isValid = false
         }
 
-        if (repeatInput.text.isNullOrBlank() || repeatInput.text.toString().toIntOrNull() == null || repeatInput.text.toString() == "0") {
-            repeatInput.setError("Введите корректное число повторений")
+        if (repeatInput.text.isNullOrBlank() || repeatInput.text.toString()
+                .toIntOrNull() == null || repeatInput.text.toString() == "0"
+        ) {
+            repeatInput.setError(getString(R.string.enter_valid_repeat))
             isValid = false
         }
 
-        if (daysInput.text.isNullOrBlank() || daysInput.text.toString().toIntOrNull() == null || daysInput.text.toString() == "0") {
-            daysInput.setError("Введите корректное число дней")
+        if (daysInput.text.isNullOrBlank() || daysInput.text.toString()
+                .toIntOrNull() == null || daysInput.text.toString() == "0"
+        ) {
+            daysInput.setError(getString(R.string.enter_valid_days))
             isValid = false
         }
 
         return isValid
     }
 
-    private fun mapTypeToRussian(type: HabitType?): String {
+    private fun mapTypeToText(type: HabitType?): String {
         return when (type) {
-            HabitType.GOOD -> "Хорошая"
-            HabitType.BAD -> "Плохая"
-            else -> "Хорошая"
+            HabitType.GOOD -> getString(R.string.good_habit)
+            HabitType.BAD -> getString(R.string.bad_habit)
+            else -> getString(R.string.good_habit)
         }
     }
 }

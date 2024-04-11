@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -40,6 +39,8 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         searchEditText = view.findViewById(R.id.searchEditText)
         sortButton = view.findViewById(R.id.sortButton)
 
+        searchEditText.queryHint = getString(R.string.filter_hint)
+
         searchEditText.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -53,8 +54,10 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
             }
         })
 
+        sortButton.text = getString(R.string.sort_button_text)
+
         sortButton.setOnClickListener {
-            viewModel.sortHabitsByDate()
+            viewModel.sortHabitsByPriority()
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 

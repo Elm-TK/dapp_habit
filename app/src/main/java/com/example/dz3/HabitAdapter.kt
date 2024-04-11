@@ -61,21 +61,28 @@ class HabitAdapter(
             descriptionView.text = habit.description
             priorityView.text = mapPriorityToText(habit.priority)
             typeView.text = mapTypeToText(habit.type)
-            periodView.text = "${habit.repeat} раз в ${habit.days} дней"
+            periodView.text =
+                "${habit.repeat} ${
+                    context.getString(
+                        R.string.times_in,
+                        habit.repeat,
+                        habit.days
+                    )
+                } ${habit.days} ${context.getString(R.string.week, habit.repeat, habit.days)}"
         }
 
         private fun mapPriorityToText(priority: HabitPriority): String {
             return when (priority) {
-                HabitPriority.HIGH -> "Высокий"
-                HabitPriority.MEDIUM -> "Обычный"
-                HabitPriority.LOW -> "Низкий"
+                HabitPriority.HIGH -> context.getString(R.string.high_priority)
+                HabitPriority.MEDIUM -> context.getString(R.string.medium_priority)
+                HabitPriority.LOW -> context.getString(R.string.low_priority)
             }
         }
 
         private fun mapTypeToText(type: HabitType): String {
             return when (type) {
-                HabitType.GOOD -> "Хорошая"
-                HabitType.BAD -> "Плохая"
+                HabitType.GOOD -> context.getString(R.string.good_habit)
+                HabitType.BAD -> context.getString(R.string.bad_habit)
             }
         }
     }

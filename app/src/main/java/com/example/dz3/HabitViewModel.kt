@@ -60,8 +60,8 @@ class HabitViewModel : ViewModel() {
         habitListLiveData.value = filteredHabits
     }
 
-    fun sortHabitsByDate() {
-        allHabits.sortByDescending { it.id }
+    fun sortHabitsByPriority() {
+        allHabits.sortByDescending { it.priority }
         updateLiveData()
     }
 
