@@ -6,12 +6,12 @@
         <item
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_home"
-                android:title="Домашний экран"/>
+                android:title="@string/home_page"/>
 
         <item
                 android:id="@+id/nav_info"
                 android:icon="@drawable/ic_info"
-                android:title="Информация о приложении"/>
+                android:title="@string/info_page"/>
 
     </group>
 

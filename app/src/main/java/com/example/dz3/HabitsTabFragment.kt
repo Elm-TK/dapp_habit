@@ -43,8 +43,8 @@ class HabitsTabFragment : Fragment() {
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "Хорошие"
-                1 -> "Плохие"
+                0 -> getString(R.string.good_many)
+                1 -> getString(R.string.bad_many)
                 else -> "Tab ${position + 1}"
             }
         }.attach()

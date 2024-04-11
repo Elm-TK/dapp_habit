@@ -16,9 +16,9 @@
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:queryHint="Поиск привычек..."
+                android:queryHint="@string/find_habit"
                 app:iconifiedByDefault="false"
-                app:actionViewClass="androidx.appcompat.widget.SearchView" />
+                app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
         <Spinner
                 android:id="@+id/sortSpinner"

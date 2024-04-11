@@ -54,7 +54,7 @@ class MainContainerFragment : Fragment() {
                 }
 
                 else -> {
-                    Toast.makeText(requireContext(), "Неизвестный пункт меню", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Unknown menu item", Toast.LENGTH_SHORT).show()
                     false
                 }
             }

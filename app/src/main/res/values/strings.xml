@@ -37,5 +37,25 @@
     <string name="times_in">раз в</string>
     <string name="week">неделю</string>
 
+    <string name="good_many">"Хорошие"</string>
+    <string name="bad_many">"Плохие"</string>
+
+    <string name="home_page">Домашний экран</string>
+    <string name="info_page">Информация о приложении</string>
+    <string name="open_nav">Открыть навигацию</string>
+    <string name="create_habit">Создание привычки</string>
+    <string name="name">Название</string>
+    <string name="description">Описание</string>
+    <string name="repeat">Повторять</string>
+    <string name="_1">1</string>
+    <string name="days">дней</string>
+    <string name="add">Добавить</string>
+
+    <string name="find_habit">Поиск привычек…</string>
+    <string name="habit_name">Название привычки</string>
+    <string name="_5_6">5 раз в 6 дней</string>
+    <string name="placeholder_desc">Описание привычки Описание привычки Описание привычки Описание привычки Описание
+        привычки
+    </string>
 
 </resources>
