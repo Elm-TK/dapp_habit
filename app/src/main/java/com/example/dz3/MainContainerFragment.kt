@@ -65,8 +65,11 @@ class MainContainerFragment : Fragment() {
                 .replace(R.id.frame_layout, HabitsTabFragment())
                 .commit()
         }
+        val habitDao = HabitDatabase.getInstance(requireContext()).habitDao()
+        val repository = HabitRepository(habitDao)
+        habitViewModel = ViewModelProvider(this, HabitViewModelFactory(repository)).get(HabitViewModel::class.java)
 
-        habitViewModel = ViewModelProvider(this).get(HabitViewModel::class.java)
+
 
         return view
     }

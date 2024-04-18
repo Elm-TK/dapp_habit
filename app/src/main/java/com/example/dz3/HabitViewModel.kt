@@ -1,72 +1,37 @@
 package com.example.dz3
 
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
-class HabitViewModel : ViewModel() {
 
-    private val allHabits: MutableList<Habit> = mutableListOf(
-        Habit(1, 1, "Чтение книг", "Читать 30 минут каждый день", HabitPriority.HIGH, HabitType.GOOD, 1, 7),
-        Habit(2, 2, "Пить воду", "Пить 2 литра воды каждый день", HabitPriority.HIGH, HabitType.GOOD, 1, 7),
-        Habit(3, 3, "Курение", "Не курить", HabitPriority.MEDIUM, HabitType.BAD, 1, 7),
-        Habit(4, 4, "Заниматься спортом", "Заниматься 3 раза в неделю", HabitPriority.LOW, HabitType.GOOD, 1, 3)
-    )
+class HabitViewModel(private val repository: HabitRepository) : ViewModel() {
 
-    val habitListLiveData: MutableLiveData<List<Habit>> = MutableLiveData(allHabits)
-    val goodHabitsLiveData: MutableLiveData<List<Habit>> = MutableLiveData(getGoodHabits())
-    val badHabitsLiveData: MutableLiveData<List<Habit>> = MutableLiveData(getBadHabits())
+    val habitListLiveData: LiveData<List<Habit>> = repository.allHabits
+    val goodHabitsLiveData: LiveData<List<Habit>> = repository.goodHabits
+    val badHabitsLiveData: LiveData<List<Habit>> = repository.badHabits
+
 
     fun addHabit(habit: Habit) {
-        allHabits.add(habit)
-        updateLiveData()
+        repository.addHabit(habit)
     }
 
-    fun updateHabit(id: Int, habit: Habit) {
-        val index = allHabits.indexOfFirst { it.id == id }
-        if (index != -1) {
-            allHabits[index] = habit
-            updateLiveData()
-        }
+    fun updateHabit(id: Long, habit: Habit) {
+        repository.updateHabit(habit)
     }
 
-    fun getHabitById(id: Int): Habit? {
-        return allHabits.find { it.id == id }
-    }
-
-    private fun getGoodHabits(): List<Habit> {
-        return allHabits.filter { it.type == HabitType.GOOD }
-    }
-
-    private fun getBadHabits(): List<Habit> {
-        return allHabits.filter { it.type == HabitType.BAD }
+    fun getHabitById(id: Long, habitType: HabitType): Habit? {
+        return repository.getHabitById(id, habitType)
     }
 
     fun filterHabits(query: String) {
-        val filteredHabits = allHabits.filter {
-            it.title.contains(query, true) || it.description.contains(query, true)
-        }
-        habitListLiveData.value = filteredHabits
-        goodHabitsLiveData.value = getGoodHabits().filter {
-            it.title.contains(query, true) || it.description.contains(query, true)
-        }
-        badHabitsLiveData.value = getBadHabits().filter {
-            it.title.contains(query, true) || it.description.contains(query, true)
-        }
+        repository.filterHabits(query)
     }
 
     fun sortHabitsByPriorityDescending() {
-        allHabits.sortByDescending { it.priority }
-        updateLiveData()
+        repository.sortHabitsByPriorityDescending()
     }
 
     fun sortHabitsByPriorityAscending() {
-        allHabits.sortBy { it.priority }
-        updateLiveData()
-    }
-
-    private fun updateLiveData() {
-        habitListLiveData.value = allHabits.toList()
-        goodHabitsLiveData.value = getGoodHabits()
-        badHabitsLiveData.value = getBadHabits()
+        repository.sortHabitsByPriorityAscending()
     }
 }

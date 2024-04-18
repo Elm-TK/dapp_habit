@@ -22,7 +22,8 @@ class HabitsTabFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[HabitViewModel::class.java]
+        viewModel = (parentFragment as? MainContainerFragment)?.habitViewModel
+            ?: throw IllegalStateException("Parent fragment must be MainContainerFragment")
     }
 
     override fun onCreateView(

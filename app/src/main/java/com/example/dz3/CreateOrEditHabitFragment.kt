@@ -8,6 +8,8 @@ import android.widget.*
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class CreateOrEditHabitFragment : Fragment() {
 
@@ -38,7 +40,7 @@ class CreateOrEditHabitFragment : Fragment() {
             isEdit = arguments?.getBoolean(ARG_IS_EDIT) ?: false
         }
 
-        viewModel = ViewModelProvider(requireActivity())[HabitViewModel::class.java]
+        viewModel = ViewModelProvider(requireParentFragment())[HabitViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -108,10 +110,12 @@ class CreateOrEditHabitFragment : Fragment() {
                         else -> HabitType.GOOD
                     }
 
-                val newHabit = Habit(1, 1, title, description, priority, type, repeat, days)
+                val newHabit = Habit(0, title, description, priority, type, repeat, days)
+
 
                 if (isEdit) {
                     habit?.let {
+                        newHabit.id = habit!!.id
                         viewModel.updateHabit(it.id, newHabit)
                     }
                 } else {

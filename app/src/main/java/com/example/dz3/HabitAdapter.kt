@@ -11,7 +11,7 @@ import com.example.dz3.databinding.HabitBinding
 
 class HabitAdapter(
     private var habitList: List<Habit>,
-    private val showNewFragmentCreateOrEditHabit: (Int) -> Unit
+    private val showNewFragmentCreateOrEditHabit: (Long) -> Unit
 ) : RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
 
     private lateinit var context: Context
@@ -50,7 +50,7 @@ class HabitAdapter(
 
         override fun onClick(v: View?) {
             val id = habitList[bindingAdapterPosition].id
-            if (id != RecyclerView.NO_ID.toInt()) {
+            if (id != RecyclerView.NO_ID) {
                 onItemClick(id)
             }
         }
@@ -87,7 +87,7 @@ class HabitAdapter(
         }
     }
 
-    private fun onItemClick(id: Int) {
+    private fun onItemClick(id: Long) {
         showNewFragmentCreateOrEditHabit(id)
     }
 }

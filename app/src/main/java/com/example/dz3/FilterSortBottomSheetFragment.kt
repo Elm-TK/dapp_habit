@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SearchView
-import android.widget.Spinner
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -30,7 +27,7 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[HabitViewModel::class.java]
+        viewModel = ViewModelProvider(requireParentFragment().requireParentFragment())[HabitViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -41,8 +38,11 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
 
         searchEditText = view.findViewById(R.id.searchEditText)
         sortSpinner = view.findViewById(R.id.sortSpinner)
+        val bottomSheetLayout = view.findViewById<LinearLayout>(R.id.bottomSheetLayout)
 
-        val sortOptions = arrayOf((getString(R.string.sortInc_button_text)), (getString(R.string.sortDes_button_text)))
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout)
+
+        val sortOptions = arrayOf(getString(R.string.sortInc_button_text), getString(R.string.sortDes_button_text))
         val sortAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, sortOptions)
         sortSpinner.adapter = sortAdapter
 
@@ -74,8 +74,9 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         })
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        bottomSheetBehavior.peekHeight = 800
+        bottomSheetBehavior.peekHeight = 200
 
         return view
     }
+
 }

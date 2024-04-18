@@ -4,23 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 
 class ListHabitFragment : Fragment() {
 
     private lateinit var viewModel: HabitViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var habitAdapter: HabitAdapter
+    private lateinit var tempHabitType: HabitType
 
     companion object {
         private const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_HABIT_TYPE = "habit-type"
 
         fun newInstance(columnCount: Int, habitType: HabitType) = ListHabitFragment().apply {
+            tempHabitType = habitType
             arguments = Bundle().apply {
                 putInt(ARG_COLUMN_COUNT, columnCount)
                 putSerializable(ARG_HABIT_TYPE, habitType)
@@ -30,7 +33,7 @@ class ListHabitFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[HabitViewModel::class.java]
+        viewModel = ViewModelProvider(requireParentFragment().requireParentFragment())[HabitViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -61,12 +64,12 @@ class ListHabitFragment : Fragment() {
         return view
     }
 
-    private fun showNewFragmentCreateOrEditHabit(id: Int = -1) {
+    private fun showNewFragmentCreateOrEditHabit(id: Long = -1) {
         val bundle = Bundle().apply {
-            putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, id != -1)
+            putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, id != -1L)
 
-            if (id != -1) {
-                val habit = viewModel.getHabitById(id)
+            if (id != -1L) {
+                val habit = viewModel.getHabitById(id, tempHabitType)
                 putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
             }
         }
