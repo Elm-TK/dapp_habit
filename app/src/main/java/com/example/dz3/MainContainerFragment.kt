@@ -65,17 +65,14 @@ class MainContainerFragment : Fragment() {
                 .replace(R.id.frame_layout, HabitsTabFragment())
                 .commit()
         }
-        val habitDao = HabitDatabase.getInstance(requireContext()).habitDao()
-        val repository = HabitRepository(habitDao)
-        habitViewModel = ViewModelProvider(this, HabitViewModelFactory(repository)).get(HabitViewModel::class.java)
-
-
-
         return view
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val habitDao = HabitDatabase.getInstance(requireContext()).habitDao()
+        val repository = HabitRepository(habitDao)
+        habitViewModel = ViewModelProvider(this, HabitViewModelFactory(repository)).get(HabitViewModel::class.java)
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (childFragmentManager.backStackEntryCount > 0) {
