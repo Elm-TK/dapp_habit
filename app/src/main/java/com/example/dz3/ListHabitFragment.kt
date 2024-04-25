@@ -51,31 +51,44 @@ class ListHabitFragment : Fragment() {
         val habitType = arguments?.getSerializable(ARG_HABIT_TYPE)
         when (habitType) {
             HabitType.GOOD -> viewModel.goodHabitsLiveData.observe(viewLifecycleOwner) { habits ->
-                habitAdapter.updateData(habits)
+                habits?.let {
+                    habitAdapter.updateData(it)
+                }
             }
 
             HabitType.BAD -> viewModel.badHabitsLiveData.observe(viewLifecycleOwner) { habits ->
-                habitAdapter.updateData(habits)
+                habits?.let {
+                    habitAdapter.updateData(it)
+                }
             }
         }
 
         return view
     }
 
+
     private fun showNewFragmentCreateOrEditHabit(id: Long = -1) {
-        val bundle = Bundle().apply {
-            putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, id != -1L)
-
-            if (id != -1L) {
+        if (id != -1L) {
+            lifecycleScope.launch {
                 val habit = viewModel.getHabitById(id)
-                putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
+                val bundle = Bundle().apply {
+                    putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, true)
+                    putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
+                }
+                navigateToEditFragment(bundle)
             }
+        } else {
+            val bundle = Bundle().apply {
+                putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, false)
+            }
+            navigateToEditFragment(bundle)
         }
+    }
 
+    private fun navigateToEditFragment(bundle: Bundle) {
         val fragment = CreateOrEditHabitFragment().apply {
             arguments = bundle
         }
-
         requireParentFragment().parentFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, fragment)
             .addToBackStack(null)

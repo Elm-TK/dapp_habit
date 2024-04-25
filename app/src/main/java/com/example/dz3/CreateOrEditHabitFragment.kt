@@ -113,12 +113,16 @@ class CreateOrEditHabitFragment : Fragment() {
                 val newHabit = Habit(0, title, description, priority, type, repeat, days)
 
 
-                if (isEdit) {
-                    habit?.let {
-                        viewModel.updateHabit(newHabit)
+
+                lifecycleScope.launch {
+                    if (isEdit) {
+                        habit?.let {
+                            newHabit.id = habit!!.id
+                            viewModel.updateHabit(newHabit)
+                        }
+                    } else {
+                        viewModel.addHabit(newHabit)
                     }
-                } else {
-                    viewModel.addHabit(newHabit)
                 }
 
                 parentFragmentManager.popBackStack()
