@@ -13,7 +13,7 @@ interface HabitDao {
     fun getHabitsByType(type: HabitType): LiveData<List<Habit>>
 
     @Query("SELECT * FROM habits WHERE id = :id")
-    fun getHabitById(id: Long): LiveData<Habit>
+    fun getHabitById(id: Long): Habit
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHabit(habit: Habit)

@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 
 class HabitRepository(private val habitDao: HabitDao) {
 
-//    var _allhabits: LiveData<List<Habit>> = habitDao.getAllHabits()
-
     var allHabits: LiveData<List<Habit>> = habitDao.getAllHabits()
     var goodHabits: LiveData<List<Habit>> = habitDao.getHabitsByType(HabitType.GOOD)
     var badHabits: LiveData<List<Habit>> = habitDao.getHabitsByType(HabitType.BAD)
@@ -23,13 +21,8 @@ class HabitRepository(private val habitDao: HabitDao) {
     }
 
 
-    fun getHabitById(id: Long, type: HabitType): Habit? {
-//        return habitDao.getHabitById(id).value
-        if (type == HabitType.GOOD) {
-            return goodHabits.value?.find { it.id == id }
-        } else if (type == HabitType.BAD) {
-            return badHabits.value?.find { it.id == id }
-        } else return null
+    fun getHabitById(id: Long): Habit {
+        return habitDao.getHabitById(id)
     }
 
     fun filterHabits(query: String) {

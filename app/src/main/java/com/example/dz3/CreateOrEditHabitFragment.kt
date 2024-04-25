@@ -115,8 +115,7 @@ class CreateOrEditHabitFragment : Fragment() {
 
                 if (isEdit) {
                     habit?.let {
-                        newHabit.id = habit!!.id
-                        viewModel.updateHabit(it.id, newHabit)
+                        viewModel.updateHabit(newHabit)
                     }
                 } else {
                     viewModel.addHabit(newHabit)

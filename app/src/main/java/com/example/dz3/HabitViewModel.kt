@@ -15,12 +15,12 @@ class HabitViewModel(private val repository: HabitRepository) : ViewModel() {
         repository.addHabit(habit)
     }
 
-    fun updateHabit(id: Long, habit: Habit) {
+    fun updateHabit(habit: Habit) {
         repository.updateHabit(habit)
     }
 
-    fun getHabitById(id: Long, habitType: HabitType): Habit? {
-        return repository.getHabitById(id, habitType)
+    fun getHabitById(id: Long): Habit {
+        return repository.getHabitById(id)
     }
 
     fun filterHabits(query: String) {

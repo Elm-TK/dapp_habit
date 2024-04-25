@@ -16,14 +16,12 @@ class ListHabitFragment : Fragment() {
     private lateinit var viewModel: HabitViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var habitAdapter: HabitAdapter
-    private lateinit var tempHabitType: HabitType
 
     companion object {
         private const val ARG_COLUMN_COUNT = "column-count"
         const val ARG_HABIT_TYPE = "habit-type"
 
         fun newInstance(columnCount: Int, habitType: HabitType) = ListHabitFragment().apply {
-            tempHabitType = habitType
             arguments = Bundle().apply {
                 putInt(ARG_COLUMN_COUNT, columnCount)
                 putSerializable(ARG_HABIT_TYPE, habitType)
@@ -69,7 +67,7 @@ class ListHabitFragment : Fragment() {
             putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, id != -1L)
 
             if (id != -1L) {
-                val habit = viewModel.getHabitById(id, tempHabitType)
+                val habit = viewModel.getHabitById(id)
                 putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
             }
         }

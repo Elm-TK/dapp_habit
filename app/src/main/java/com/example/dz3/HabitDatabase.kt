@@ -14,7 +14,7 @@ abstract class HabitDatabase : RoomDatabase() {
         private var INSTANCE: HabitDatabase? = null
 
         fun getInstance(context: Context): HabitDatabase {
-            return INSTANCE ?: synchronized(this) {
+            return INSTANCE ?: run {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     HabitDatabase::class.java,
