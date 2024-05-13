@@ -1,3 +1,5 @@
+package com.example.dz3.Fragments
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater

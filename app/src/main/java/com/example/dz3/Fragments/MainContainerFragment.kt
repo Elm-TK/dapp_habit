@@ -1,6 +1,5 @@
-package com.example.dz3
+package com.example.dz3.Fragments
 
-import InfoFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,11 @@ import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.dz3.DB.HabitDatabase
+import com.example.dz3.DB.HabitRepository
+import com.example.dz3.ViewModels.HabitViewModel
+import com.example.dz3.ViewModels.HabitViewModelFactory
+import com.example.dz3.R
 import com.google.android.material.navigation.NavigationView
 
 class MainContainerFragment : Fragment() {

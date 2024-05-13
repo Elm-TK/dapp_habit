@@ -2,6 +2,7 @@ package com.example.dz3
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.dz3.Fragments.MainContainerFragment
 
 class MainActivity : AppCompatActivity() {
 

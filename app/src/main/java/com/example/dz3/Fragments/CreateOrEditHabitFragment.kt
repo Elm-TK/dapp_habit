@@ -1,4 +1,4 @@
-package com.example.dz3
+package com.example.dz3.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,8 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.dz3.*
+import com.example.dz3.ViewModels.HabitViewModel
 import kotlinx.coroutines.launch
 
 class CreateOrEditHabitFragment : Fragment() {
@@ -111,8 +113,6 @@ class CreateOrEditHabitFragment : Fragment() {
                     }
 
                 val newHabit = Habit(0, title, description, priority, type, repeat, days)
-
-
 
                 lifecycleScope.launch {
                     if (isEdit) {

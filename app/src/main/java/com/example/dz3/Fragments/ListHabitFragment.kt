@@ -1,4 +1,4 @@
-package com.example.dz3
+package com.example.dz3.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dz3.Adapters.HabitAdapter
+import com.example.dz3.HabitType
+import com.example.dz3.ViewModels.HabitViewModel
+import com.example.dz3.R
 import kotlinx.coroutines.launch
 
 class ListHabitFragment : Fragment() {

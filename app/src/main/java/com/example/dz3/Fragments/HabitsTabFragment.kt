@@ -1,12 +1,14 @@
-package com.example.dz3
+package com.example.dz3.Fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.dz3.Adapters.HabitPagerAdapter
+import com.example.dz3.ViewModels.HabitViewModel
+import com.example.dz3.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout

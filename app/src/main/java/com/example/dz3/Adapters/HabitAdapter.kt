@@ -1,4 +1,4 @@
-package com.example.dz3
+package com.example.dz3.Adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dz3.Habit
+import com.example.dz3.HabitPriority
+import com.example.dz3.HabitType
+import com.example.dz3.R
 import com.example.dz3.databinding.HabitBinding
 
 class HabitAdapter(

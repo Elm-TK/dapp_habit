@@ -1,7 +1,9 @@
-package com.example.dz3
+package com.example.dz3.DB
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.dz3.Habit
+import com.example.dz3.HabitType
 
 @Dao
 interface HabitDao {
@@ -34,7 +36,6 @@ interface HabitDao {
 
     @Query("SELECT * FROM habits WHERE (title LIKE '%' || :filter || '%' OR description LIKE '%' || :filter || '%') ORDER BY priority")
     fun filterAndSortHabits(filter: String): LiveData<List<Habit>>
-
 
     @Query("SELECT * FROM habits WHERE type = :type AND (title LIKE '%' || :filter || '%' OR description LIKE '%' || :filter || '%') ORDER BY priority")
     fun filterAndSortHabitsByType(type: HabitType, filter: String): LiveData<List<Habit>>

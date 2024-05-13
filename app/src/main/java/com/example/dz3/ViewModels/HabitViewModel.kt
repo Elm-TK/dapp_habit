@@ -1,8 +1,9 @@
-package com.example.dz3
+package com.example.dz3.ViewModels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.dz3.DB.HabitRepository
+import com.example.dz3.Habit
 
 
 class HabitViewModel(private val repository: HabitRepository) : ViewModel() {
