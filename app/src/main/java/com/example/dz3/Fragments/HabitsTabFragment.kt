@@ -1,4 +1,4 @@
-package com.example.dz3.Fragments
+package com.example.dz3.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
-import com.example.dz3.Adapters.HabitPagerAdapter
-import com.example.dz3.ViewModels.HabitViewModel
+import com.example.dz3.adapters.HabitPagerAdapter
+import com.example.dz3.view_models.HabitViewModel
 import com.example.dz3.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -78,12 +78,12 @@ class HabitsTabFragment : Fragment() {
     private fun showNewFragmentCreateOrEditHabit(position: Int = -1) {
         val bundle = Bundle().apply {
             putBoolean(CreateOrEditHabitFragment.ARG_IS_EDIT, position != -1)
-
-            if (position != -1) {
-                val habit = viewModel.habitListLiveData.value?.get(position)
-                putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
-                putInt(CreateOrEditHabitFragment.ARG_POSITION, position)
-            }
+//
+//            if (position != -1) {
+//                val habit = viewModel.habitListLiveData.value?.get(position)
+//                putSerializable(CreateOrEditHabitFragment.ARG_HABIT, habit)
+//                putInt(CreateOrEditHabitFragment.ARG_POSITION, position)
+//            }
         }
 
         val fragment = CreateOrEditHabitFragment().apply {

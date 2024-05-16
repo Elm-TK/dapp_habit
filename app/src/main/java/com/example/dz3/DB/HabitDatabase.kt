@@ -1,10 +1,10 @@
-package com.example.dz3.DB
+package com.example.dz3.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.dz3.Habit
+import com.example.dz3.models.Habit
 
 @Database(entities = [Habit::class], version = 1, exportSchema = false)
 abstract class HabitDatabase : RoomDatabase() {

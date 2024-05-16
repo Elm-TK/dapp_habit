@@ -1,5 +1,6 @@
-package com.example.dz3.Fragments
+package com.example.dz3.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +9,18 @@ import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.dz3.DB.HabitDatabase
-import com.example.dz3.DB.HabitRepository
-import com.example.dz3.ViewModels.HabitViewModel
-import com.example.dz3.ViewModels.HabitViewModelFactory
+import androidx.lifecycle.lifecycleScope
+import com.example.dz3.db.HabitDatabase
+import com.example.dz3.db.HabitRepository
+import com.example.dz3.view_models.HabitViewModel
+import com.example.dz3.view_models.HabitViewModelFactory
 import com.example.dz3.R
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.launch
 
 class MainContainerFragment : Fragment() {
 
@@ -24,11 +28,17 @@ class MainContainerFragment : Fragment() {
     private lateinit var ibMenu: ImageButton
     private lateinit var navigationView: NavigationView
     lateinit var habitViewModel: HabitViewModel
+    lateinit var habitRepository: HabitRepository
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewLifecycleOwner.lifecycleScope.launch {
+            habitRepository.syncHabitsToServer()
+            habitRepository.getHabitsFromServer()
+        }
         val view = inflater.inflate(R.layout.fragment_activity_main, container, false)
 
         drawerLayout = view.findViewById(R.id.navigation_drawer_layout)
@@ -75,8 +85,8 @@ class MainContainerFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val habitDao = HabitDatabase.getInstance(requireContext()).habitDao()
-        val repository = HabitRepository(habitDao)
-        habitViewModel = ViewModelProvider(this, HabitViewModelFactory(repository)).get(HabitViewModel::class.java)
+        habitRepository = HabitRepository(habitDao)
+        habitViewModel = ViewModelProvider(this, HabitViewModelFactory(habitRepository)).get(HabitViewModel::class.java)
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (childFragmentManager.backStackEntryCount > 0) {

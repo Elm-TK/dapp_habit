@@ -1,9 +1,9 @@
-package com.example.dz3.Adapters
+package com.example.dz3.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.dz3.Fragments.ListHabitFragment
-import com.example.dz3.HabitType
+import com.example.dz3.fragments.ListHabitFragment
+import com.example.dz3.models.HabitType
 
 class HabitPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 

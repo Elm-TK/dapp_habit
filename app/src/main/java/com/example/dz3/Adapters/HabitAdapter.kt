@@ -1,4 +1,4 @@
-package com.example.dz3.Adapters
+package com.example.dz3.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dz3.Habit
-import com.example.dz3.HabitPriority
-import com.example.dz3.HabitType
+import com.example.dz3.models.Habit
+import com.example.dz3.models.HabitPriority
+import com.example.dz3.models.HabitType
 import com.example.dz3.R
 import com.example.dz3.databinding.HabitBinding
 
 class HabitAdapter(
     private var habitList: List<Habit>,
-    private val showNewFragmentCreateOrEditHabit: (Long) -> Unit
+    private val showNewFragmentCreateOrEditHabit: (String) -> Unit
 ) : RecyclerView.Adapter<HabitAdapter.ViewHolder>() {
 
     private lateinit var context: Context
@@ -54,9 +54,7 @@ class HabitAdapter(
 
         override fun onClick(v: View?) {
             val id = habitList[bindingAdapterPosition].id
-            if (id != RecyclerView.NO_ID) {
-                onItemClick(id)
-            }
+            onItemClick(id)
         }
 
         fun bind(habit: Habit) {
@@ -91,7 +89,7 @@ class HabitAdapter(
         }
     }
 
-    private fun onItemClick(id: Long) {
+    private fun onItemClick(id: String) {
         showNewFragmentCreateOrEditHabit(id)
     }
 }

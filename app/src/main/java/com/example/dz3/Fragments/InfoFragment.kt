@@ -1,4 +1,4 @@
-package com.example.dz3.Fragments
+package com.example.dz3.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

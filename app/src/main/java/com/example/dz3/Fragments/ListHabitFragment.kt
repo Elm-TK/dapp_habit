@@ -1,4 +1,4 @@
-package com.example.dz3.Fragments
+package com.example.dz3.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.dz3.Adapters.HabitAdapter
-import com.example.dz3.HabitType
-import com.example.dz3.ViewModels.HabitViewModel
+import com.example.dz3.adapters.HabitAdapter
+import com.example.dz3.models.HabitType
+import com.example.dz3.view_models.HabitViewModel
 import com.example.dz3.R
 import kotlinx.coroutines.launch
 
@@ -47,8 +47,8 @@ class ListHabitFragment : Fragment() {
         recyclerView = view.findViewById(R.id.list)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        habitAdapter = HabitAdapter(emptyList()) { position ->
-            showNewFragmentCreateOrEditHabit(position)
+        habitAdapter = HabitAdapter(emptyList()) { id ->
+            showNewFragmentCreateOrEditHabit(id)
         }
         recyclerView.adapter = habitAdapter
 
@@ -71,8 +71,8 @@ class ListHabitFragment : Fragment() {
     }
 
 
-    private fun showNewFragmentCreateOrEditHabit(id: Long = -1) {
-        if (id != -1L) {
+    private fun showNewFragmentCreateOrEditHabit(id: String = "") {
+        if (id != "") {
             lifecycleScope.launch {
                 val habit = viewModel.getHabitById(id)
                 val bundle = Bundle().apply {

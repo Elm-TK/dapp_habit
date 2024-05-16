@@ -1,4 +1,4 @@
-package com.example.dz3.Fragments
+package com.example.dz3.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
-import com.example.dz3.ViewModels.HabitViewModel
+import com.example.dz3.view_models.HabitViewModel
 import com.example.dz3.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

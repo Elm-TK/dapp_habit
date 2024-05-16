@@ -1,20 +1,23 @@
-package com.example.dz3.DB
+package com.example.dz3.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.dz3.Habit
-import com.example.dz3.HabitType
+import com.example.dz3.models.Habit
+import com.example.dz3.models.HabitType
 
 @Dao
 interface HabitDao {
     @Query("SELECT * FROM habits")
-    fun getAllHabits(): LiveData<List<Habit>>
+    fun getAllHabits(): List<Habit>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(habits: List<Habit>)
 
     @Query("SELECT * FROM habits WHERE type = :type")
     fun getHabitsByType(type: HabitType): LiveData<List<Habit>>
 
     @Query("SELECT * FROM habits WHERE id = :id")
-    suspend fun getHabitById(id: Long): Habit
+    suspend fun getHabitById(id: String): Habit
 
     @Query("SELECT * FROM habits WHERE title LIKE '%' || :query || '%' OR description LIKE '%' || :query || '%'")
     fun filterHabits(query: String): LiveData<List<Habit>>
@@ -30,6 +33,9 @@ interface HabitDao {
 
     @Update
     suspend fun updateHabit(habit: Habit)
+
+    @Update
+    suspend fun markHabitDone(habit: Habit)
 
     @Delete
     suspend fun deleteHabit(habit: Habit)

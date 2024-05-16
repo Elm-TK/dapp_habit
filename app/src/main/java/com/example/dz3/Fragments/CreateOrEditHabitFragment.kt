@@ -1,17 +1,23 @@
-package com.example.dz3.Fragments
+package com.example.dz3.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import com.example.dz3.*
-import com.example.dz3.ViewModels.HabitViewModel
-import kotlinx.coroutines.launch
+import com.example.dz3.db.HabitDatabase
+import com.example.dz3.db.HabitRepository
+import com.example.dz3.models.Habit
+import com.example.dz3.models.HabitPriority
+import com.example.dz3.models.HabitType
+import com.example.dz3.view_models.CreateOrEditHabitViewModel
+import com.example.dz3.view_models.CreateOrEditHabitViewModelFactory
 
 class CreateOrEditHabitFragment : Fragment() {
 
@@ -24,7 +30,6 @@ class CreateOrEditHabitFragment : Fragment() {
     private var habit: Habit? = null
     private var position: Int = 0
     private var isEdit: Boolean = false
-    private lateinit var viewModel: HabitViewModel
 
     private lateinit var titleInput: EditText
     private lateinit var descriptionInput: EditText
@@ -33,6 +38,14 @@ class CreateOrEditHabitFragment : Fragment() {
     private lateinit var prioritySelector: Spinner
     private lateinit var radioGroup: RadioGroup
     private lateinit var button: Button
+    private lateinit var delButton: Button
+    private lateinit var doneButton: Button
+
+    private val viewModel: CreateOrEditHabitViewModel by viewModels {
+        val habitDao = HabitDatabase.getInstance(requireContext()).habitDao()
+        val repository = HabitRepository(habitDao)
+        CreateOrEditHabitViewModelFactory(repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +54,6 @@ class CreateOrEditHabitFragment : Fragment() {
             position = arguments?.getInt(ARG_POSITION) ?: 0
             isEdit = arguments?.getBoolean(ARG_IS_EDIT) ?: false
         }
-
-        viewModel = ViewModelProvider(requireParentFragment())[HabitViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -58,6 +69,8 @@ class CreateOrEditHabitFragment : Fragment() {
         prioritySelector = view.findViewById(R.id.priority_selector)
         radioGroup = view.findViewById(R.id.radioGroup)
         button = view.findViewById(R.id.button)
+        delButton = view.findViewById(R.id.delete)
+        doneButton = view.findViewById(R.id.done)
 
         val priorities = resources.getStringArray(R.array.priorities)
         val priorityAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, priorities)
@@ -85,19 +98,35 @@ class CreateOrEditHabitFragment : Fragment() {
                 }
             }
         }
+
+        viewModel.habitSavedEvent.observe(viewLifecycleOwner) { event ->
+            if (event) {
+                parentFragmentManager.popBackStack()
+            }
+        }
+
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        button.setOnClickListener {
-            if (isValidInput()) {
-                val title: String = titleInput.text.toString()
-                val description: String = descriptionInput.text.toString()
-                val repeat: Int = repeatInput.text.toString().toInt()
-                val days: Int = daysInput.text.toString().toInt()
+        doneButton.setOnClickListener {
+            viewModel.markHabitDone(habit)
+        }
 
+        delButton.setOnClickListener {
+            viewModel.deleteHabit(habit)
+        }
+
+        button.setOnClickListener {
+            val title: String = titleInput.text.toString()
+            val description: String = descriptionInput.text.toString()
+            val repeat: String = repeatInput.text.toString()
+            val days: String = daysInput.text.toString()
+
+            if (viewModel.isValidInput(title, repeat, days)) {
                 val priority: HabitPriority = when (prioritySelector.selectedItem.toString()) {
                     getString(R.string.high_priority) -> HabitPriority.HIGH
                     getString(R.string.medium_priority) -> HabitPriority.MEDIUM
@@ -112,47 +141,24 @@ class CreateOrEditHabitFragment : Fragment() {
                         else -> HabitType.GOOD
                     }
 
-                val newHabit = Habit(0, title, description, priority, type, repeat, days)
-
-                lifecycleScope.launch {
-                    if (isEdit) {
-                        habit?.let {
-                            newHabit.id = habit!!.id
-                            viewModel.updateHabit(newHabit)
-                        }
-                    } else {
-                        viewModel.addHabit(newHabit)
-                    }
-                }
-
-                parentFragmentManager.popBackStack()
+                viewModel.saveHabit(
+                    habit,
+                    isEdit,
+                    title,
+                    description,
+                    repeat.toInt(),
+                    days.toInt(),
+                    priority,
+                    type
+                )
+            } else {
+                if (title.isBlank()) titleInput.error = getString(R.string.enter_habit_title)
+                if (repeat.isBlank() || repeat.toIntOrNull() == null || repeat == "0") repeatInput.error =
+                    getString(R.string.enter_valid_repeat)
+                if (days.isBlank() || days.toIntOrNull() == null || days == "0") daysInput.error =
+                    getString(R.string.enter_valid_days)
             }
         }
-    }
-
-    private fun isValidInput(): Boolean {
-        var isValid = true
-
-        if (titleInput.text.isNullOrBlank()) {
-            titleInput.setError(getString(R.string.enter_habit_title))
-            isValid = false
-        }
-
-        if (repeatInput.text.isNullOrBlank() || repeatInput.text.toString()
-                .toIntOrNull() == null || repeatInput.text.toString() == "0"
-        ) {
-            repeatInput.setError(getString(R.string.enter_valid_repeat))
-            isValid = false
-        }
-
-        if (daysInput.text.isNullOrBlank() || daysInput.text.toString()
-                .toIntOrNull() == null || daysInput.text.toString() == "0"
-        ) {
-            daysInput.setError(getString(R.string.enter_valid_days))
-            isValid = false
-        }
-
-        return isValid
     }
 
     private fun mapTypeToText(type: HabitType?): String {
