@@ -16,7 +16,6 @@ data class HabitRemote(
     var uid: String? = null
 ) {
     companion object {
-        @RequiresApi(Build.VERSION_CODES.O)
         fun fromHabit(habit: Habit, needId: Boolean = true): HabitRemote {
             val habitRemote = HabitRemote(
                 count = habit.days,

@@ -3,7 +3,6 @@ package com.example.data.di
 import android.content.Context
 import com.example.data.db.HabitDao
 import com.example.data.db.HabitDatabase
-import com.example.data.network.RetrofitClient
 import com.example.data.repositories.HabitRepository
 import dagger.Module
 import dagger.Provides

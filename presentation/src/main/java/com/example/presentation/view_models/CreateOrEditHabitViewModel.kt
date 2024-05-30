@@ -1,8 +1,6 @@
 package com.example.presentation.view_models
 
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,7 +17,6 @@ class CreateOrEditHabitViewModel(private val habitRepository: HabitRepository) :
     private val _habitSavedEvent = MutableLiveData<Boolean>()
     val habitSavedEvent: LiveData<Boolean> = _habitSavedEvent
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun saveHabit(
         habit: Habit?,
         isEdit: Boolean,
@@ -66,7 +63,6 @@ class CreateOrEditHabitViewModel(private val habitRepository: HabitRepository) :
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun markHabitDone(habit: Habit?) {
         viewModelScope.launch {
             if (habit != null) {
@@ -96,6 +92,7 @@ class CreateOrEditHabitViewModel(private val habitRepository: HabitRepository) :
             _habitSavedEvent.value = true
         }
     }
+    
 
     fun isValidInput(title: String, repeat: String, days: String): Boolean {
         return title.isNotBlank() && repeat.toIntOrNull() != null && repeat.toInt() > 0 &&

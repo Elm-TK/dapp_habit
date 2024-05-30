@@ -43,7 +43,17 @@ interface HabitDao {
     @Query("SELECT * FROM habits WHERE (title LIKE '%' || :filter || '%' OR description LIKE '%' || :filter || '%') ORDER BY priority")
     fun filterAndSortHabits(filter: String): Flow<List<Habit>>
 
-    @Query("SELECT * FROM habits WHERE type = :type AND (title LIKE '%' || :filter || '%' OR description LIKE '%' || :filter || '%') ORDER BY priority")
-    fun filterAndSortHabitsByType(type: HabitType, filter: String): Flow<List<Habit>>
-
+    @Query("""
+        SELECT * FROM habits
+        WHERE type = :type
+        AND (title LIKE '%' || :filter || '%' OR description LIKE '%' || :filter || '%')
+        ORDER BY
+        CASE WHEN :sortOrder = 'ASC' THEN priority END ASC,
+        CASE WHEN :sortOrder = 'DESC' THEN priority END DESC
+    """)
+    fun filterAndSortHabitsByType(
+        type: HabitType,
+        filter: String,
+        sortOrder: String
+    ): Flow<List<Habit>>
 }

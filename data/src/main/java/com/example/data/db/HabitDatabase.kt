@@ -8,7 +8,7 @@ import com.example.domain.models.Habit
 
 @Database(entities = [Habit::class], version = 1, exportSchema = false)
 abstract class HabitDatabase : RoomDatabase() {
-    abstract fun habitDao(): com.example.data.db.HabitDao
+    abstract fun habitDao(): HabitDao
 
     companion object {
         @Volatile

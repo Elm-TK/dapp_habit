@@ -1,12 +1,10 @@
 package com.example.presentation.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,11 +28,11 @@ class CreateOrEditHabitFragment : Fragment() {
     private var position: Int = 0
     private var isEdit: Boolean = false
 
-    private lateinit var titleInput: EditText
-    private lateinit var descriptionInput: EditText
-    private lateinit var repeatInput: EditText
-    private lateinit var daysInput: EditText
-    private lateinit var prioritySelector: Spinner
+    lateinit var titleInput: EditText
+    lateinit var descriptionInput: EditText
+    lateinit var repeatInput: EditText
+    lateinit var daysInput: EditText
+    lateinit var prioritySelector: Spinner
     private lateinit var radioGroup: RadioGroup
     private lateinit var button: Button
     private lateinit var delButton: Button
@@ -107,7 +105,6 @@ class CreateOrEditHabitFragment : Fragment() {
         return view
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

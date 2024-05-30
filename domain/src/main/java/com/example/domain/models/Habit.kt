@@ -1,7 +1,5 @@
 package com.example.domain.models
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -22,7 +20,7 @@ enum class HabitPriority {
 data class Habit(
     @PrimaryKey
     @ColumnInfo(name = "id") var id: String = "",
-    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "title") var title: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "priority") val priority: HabitPriority,
     @ColumnInfo(name = "type") val type: HabitType,
@@ -31,7 +29,6 @@ data class Habit(
     @ColumnInfo(name = "habitDone") var doneDates: List<Int> = emptyList(),
 ) : Serializable {
     companion object {
-        @RequiresApi(Build.VERSION_CODES.O)
         fun fromHabitRemote(hr: HabitRemote): Habit {
             return Habit(
                 id = hr.uid!!,

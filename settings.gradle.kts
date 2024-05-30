@@ -14,7 +14,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "dz3"
-include(":app")
 include(":domain")
 include(":data")
 include(":presentation")

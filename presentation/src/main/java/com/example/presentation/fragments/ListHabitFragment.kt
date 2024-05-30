@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -35,13 +34,11 @@ class ListHabitFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(requireParentFragment().requireParentFragment())[HabitViewModel::class.java]
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,8 +71,6 @@ class ListHabitFragment : Fragment() {
         return view
     }
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun showNewFragmentCreateOrEditHabit(id: String = "") {
         if (id != "") {
             lifecycleScope.launch {

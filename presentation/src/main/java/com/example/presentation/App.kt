@@ -1,7 +1,6 @@
 package com.example.presentation
 
 import android.app.Application
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import com.example.presentation.di.AppComponent
 import com.example.presentation.di.ContextModule
 import com.example.presentation.di.DaggerAppComponent

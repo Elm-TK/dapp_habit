@@ -1,12 +1,10 @@
 package com.example.presentation.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.presentation.view_models.HabitViewModel
 import com.example.presentation.R
@@ -28,7 +26,6 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(requireParentFragment().requireParentFragment())[HabitViewModel::class.java]
@@ -57,7 +54,6 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
                 return false
             }
 
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     viewModel.filterHabits(newText)
@@ -67,7 +63,6 @@ class FilterSortBottomSheetFragment : BottomSheetDialogFragment() {
         })
 
         sortSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            @RequiresApi(Build.VERSION_CODES.O)
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 when (position) {
                     0 -> viewModel.sortHabitsByPriorityDescending()
